@@ -1,65 +1,97 @@
 #' Scraper CETESB
 #'
-#' @param station The station id for which you wish get the data.
-#' See [Rpollution::cetesb_station_ids].
-#' @param parameter The variable id you want the data for. See
-#' [Rpollution::cetesb_station_ids].
-#' @param start The initial day for the data.
-#' @param end The final day for the data.
-#' @param type Type of data: "P" for hourly mean or "M" for moving
-#' average.
-#' @param login Your login on Qualar system.
-#' @param password Your passoword on Qualar system.
-#' @param invalidData If TRUE, the system will return rows with
-#' invalid data.
-#' @param network Network type: "A" for automatic or "M" for manual.
+#' @param station A numeric value indicating the station id from
+#' where you wish to get the data.
+#' See [koffing::cetesb_station_ids].
+#' @param parameters A numeric vector of maximum length equal to 3 indicating
+#' the ids of the parameters you want to get the data from.
+#' See [koffing::cetesb_station_ids].
+#' @param start A string in the format "dd/mm/aaaa" representing
+#' the initial day for the data selection.
+#' @param end A string in the format "dd/mm/aaaa" representing  the
+#' final day for the data selection.
+#' @param login A string with your login on Qualar system.
+#' @param password A string with your passoword on Qualar system.
+#' @param safe If FALSE (default) the function will return a error if it can't
+#' extract the requested data.
+#' @param file A string containing a path to a .rds file where the data will be
+#' written. If NULL (default) the data will be return.
 #'
+#' @return A tibble with the data returned by the Qualar system.
+#' @importFrom dplyr %>%
+#' @importFrom dplyr slice
+#' @examples
+#' \dontrun{
+#'
+#' # Ozone for 'Dom Pedro II' station from 01/01/2018 to 31/01/2018.
+#'
+#' scraper_cetesb(station = 72, parameter = 63,
+#'                start = "01/01/2018", end = "31/01/2018",
+#'                login = "my_login", password = "my_password")
+#' }
 #' @export
+#'
 
-scraper_CETESB <- function(station, parameter, start,
-                           end, type = "P", login,
-                           password, invalidData = "on",
-                           network = "A") {
+## quiets concerns of R CMD check re: the .'s that appear in pipelines
+if(getRversion() >= "2.15.1")  utils::globalVariables(c("."))
 
+scraper_cetesb <- function(station, parameter, start, end, login, password,
+                           safe = FALSE, file = NULL) {
 
-  res <- httr::GET("http://qualar.cetesb.sp.gov.br/qualar/home.do")
+  if(!is.null(file))
+    if(fs::path_ext(file) != "rds")
+      stop("`file` must be a path to a rds file")
 
-  my_cookie <- httr::cookies(res)$value %>%
-    purrr::set_names(cookies(res)$name)
-
-  url_login <- "http://qualar.cetesb.sp.gov.br/qualar/autenticador"
-
-  res <- httr::POST(
-    url_login,
-    body = list(
-      cetesb_login = login,
-      cetesb_password = password,
-      enviar = "OK"
-    ),
-    encode = "form",
-    httr::set_cookies(my_cookie)
+  cookie <- get_session_cookie(
+    url = "https://qualar.cetesb.sp.gov.br/qualar/home.do"
   )
 
-  url_dados <- "http://qualar.cetesb.sp.gov.br/qualar/exportaDados.do"
-
-  res <- httr::POST(
-    url_dados,
-    query = list(method = "pesquisar"),
-    body = list(
-      irede = network,
-      dataInicialStr  = start,
-      dataFinalStr = end,
-      cDadosInvalidos = invalidData,
-      iTipoDado = type,
-      estacaoVO.nestcaMonto = station,
-      parametroVO.nparmt = parameter
-    ),
-    encode = "form",
-    set_cookies(my_cookie)
+  res <- login_qualar(
+    url = "https://qualar.cetesb.sp.gov.br/qualar/autenticador",
+    login = login,
+    password = password,
+    cookie = cookie
   )
 
-  httr::content(res) %>%
-    rvest::html_table(fill = TRUE) %>%
-    magrittr::extract2(2)
+  res <- get_data(
+    url = "https://qualar.cetesb.sp.gov.br/qualar/exportaDadosAvanc.do?method=exportar",
+    station = station,
+    parameter = parameter,
+    start = start,
+    end = end,
+    cookie = cookie
+  )
+
+  if(stringr::str_detect(res$headers$`content-type`, "text/csv")) {
+    data <- safe_extract_data(res, station, parameter)
+  } else {
+    data <- NULL
+  }
+
+  if(is.null(data) & !safe) {
+    stop("An error ocurred when extracting data.\n
+         Make sure that:\n
+         - you are connected to the internet;
+         - the login and password are correct;
+         - the selected station measures the requested parameter.")
+  } else if(is.null(data) & safe) {
+    message(glue::glue("Data for parameter {parameter} from station {station} was not downloaded."))
+    if(is.null(file)) {
+      return(NULL)
+    } else {
+      invisible(FALSE)
+    }
+  } else if(!is.null(data)) {
+    message(
+      glue::glue("Data for parameter {parameter} from station {station} was successfully downloaded.")
+    )
+    if(is.null(file)) {
+      return(data)
+    } else {
+      readr::write_rds(data, file)
+      invisible(TRUE)
+    }
+  }
 
 }
+
