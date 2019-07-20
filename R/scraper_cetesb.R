@@ -2,10 +2,10 @@
 #'
 #' @param station A numeric value indicating the station id from
 #' where you wish to get the data.
-#' See [koffing::cetesb_station_ids].
+#' See [Rpollution::cetesb_station_ids].
 #' @param parameters A numeric vector of maximum length equal to 3 indicating
 #' the ids of the parameters you want to get the data from.
-#' See [koffing::cetesb_station_ids].
+#' See [Rpollution::cetesb_station_ids].
 #' @param start A string in the format "dd/mm/aaaa" representing
 #' the initial day for the data selection.
 #' @param end A string in the format "dd/mm/aaaa" representing  the
@@ -19,22 +19,16 @@
 #'
 #' @return A tibble with the data returned by the Qualar system.
 #' @importFrom dplyr %>%
-#' @importFrom dplyr slice
 #' @examples
 #' \dontrun{
 #'
-#' # Ozone for 'Dom Pedro II' station from 01/01/2018 to 31/01/2018.
+#' # Ozone for 'Dom Pedro II' station for January 2018.
 #'
 #' scraper_cetesb(station = 72, parameter = 63,
 #'                start = "01/01/2018", end = "31/01/2018",
-#'                login = "my_login", password = "my_password")
+#'                login = "login", password = "password")
 #' }
 #' @export
-#'
-
-## quiets concerns of R CMD check re: the .'s that appear in pipelines
-if(getRversion() >= "2.15.1")  utils::globalVariables(c("."))
-
 scraper_cetesb <- function(station, parameter, start, end, login, password,
                            safe = FALSE, file = NULL) {
 
@@ -94,4 +88,3 @@ scraper_cetesb <- function(station, parameter, start, end, login, password,
   }
 
 }
-
