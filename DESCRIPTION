@@ -1,10 +1,10 @@
 Package: Rpollution
 Title: Functions for air pollution analysis
-Version: 0.0.0.9000
+Version: 1.0.0
 Authors@R: person("William", "Amorim", email = "williamo@curso-r.com", role = c("aut", "cre"))
 Description: Useful functions to air pollution analysis.
-Depends: R (>= 3.4.2)
-License: MIT
+Depends: R (>= 3.4.0)
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Suggests:
@@ -12,9 +12,16 @@ Suggests:
     knitr,
     rmarkdown
 Imports: 
-  httr, 
-  rvest, 
-  magrittr
-RoxygenNote: 6.0.1
+    httr,
+    rvest,
+    magrittr,
+    dplyr,
+    stringr,
+    purrr,
+    fs,
+    glue,
+    readr,
+    lubridate
+RoxygenNote: 6.1.1
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr
