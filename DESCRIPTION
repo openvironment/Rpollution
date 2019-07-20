@@ -1,7 +1,9 @@
 Package: Rpollution
 Title: Functions for air pollution analysis
 Version: 1.0.0
-Authors@R: person("William", "Amorim", email = "williamo@curso-r.com", role = c("aut", "cre"))
+Authors@R: c(
+  person(given = "William", family = "Amorim", role = c("aut", "cre"), email = "williamo@curso-r.com"),
+  person(given = "Sergio", family = "Ibarra-Espinosa", role = c("ctb"), email = "sergio.ibarra@usp.br", comment = c(ORCID = "0000-0002-3162-1905")))
 Description: Useful functions to air pollution analysis.
 Depends: R (>= 3.4.0)
 License: MIT + file LICENSE
