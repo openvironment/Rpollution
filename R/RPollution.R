@@ -1,4 +1,4 @@
-#' \code{RPollution} package
+#' \code{Rpollution} package
 #'
 #' Functions for air pollution analysis
 #'
@@ -6,7 +6,7 @@
 #' on \href{https://github.com/williamorim/Rpollution#readme}{GitHub}
 #'
 #' @docType package
-#' @name RPollution
+#' @name Rpollution
 #' @importFrom dplyr %>%
 NULL
 
