@@ -1,17 +1,16 @@
 
-# koffing <img src="man/figures/logo.png" align="right" width = "15%">
+# Rpollution <img src="man/figures/logo.png" align="right" width = "15%">
 
-The goal of `koffing` is to assemble R functions to catch (scrape) air
-pollution data. `koffing` is from the same creator of the blog
-[Rpollution](https://rpollution.com).
+The goal of `Rpollution` is to assemble R functions to analyse air
+pollution data.
 
 ## Installation
 
-You can install `koffing` from github with:
+You can install `Rpollution` from github with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("atmoschem/koffing")
+# install.packages("remotes")
+remotes::install_github("williamorim/Rpollution")
 ```
 
 ## CETESB scraper
@@ -20,9 +19,9 @@ To scrape data from the CETESB qualar system, use the function
 `scraper_cetesb()`.
 
 ``` r
-library(koffing)
+library(Rpollution)
 
-koffing::scraper_cetesb(
+scraper_cetesb(
   parameter = 99, 
   station = 17, 
   start = "01/01/2018", 
