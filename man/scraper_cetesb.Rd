@@ -30,7 +30,7 @@ written. If NULL (default) the data will be return.}
 
 \item{parameters}{A numeric vector of maximum length equal to 3 indicating
 the ids of the parameters you want to get the data from.
-See \link[Rpollution:cetesb_station_ids]{Rpollution::cetesb_station_ids}.}
+See \link[Rpollution:cetesb_param_ids]{Rpollution::cetesb_param_ids}.}
 }
 \value{
 A tibble with the data returned by the Qualar system.
