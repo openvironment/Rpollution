@@ -22,8 +22,8 @@ To scrape data from the CETESB qualar system, use the function
 library(Rpollution)
 
 scraper_cetesb(
-  parameter = 99, 
-  station = 17, 
+  parameter = 72, 
+  station = 63, 
   start = "01/01/2018", 
   end = "31/01/2018", 
   login = "login", 
