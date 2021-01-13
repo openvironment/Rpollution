@@ -8,6 +8,8 @@ knitr::opts_chunk$set(
   comment = "#>",
   message = FALSE
 )
+
+library(Rpollution)
 ```
 
 # Rpollution <img src="man/figures/logo.png" align="right" width = "15%">
@@ -20,7 +22,7 @@ You can install `Rpollution` from github with:
 
 ```{r gh-installation, eval = FALSE}
 # install.packages("remotes")
-remotes::install_github("williamorim/Rpollution")
+remotes::install_github("openvironment/Rpollution")
 ```
 
 ## CETESB scraper
@@ -31,13 +33,25 @@ To scrape data from the CETESB qualar system, use the function `scraper_cetesb()
 library(Rpollution)
 
 scraper_cetesb(
-  parameter = 99, 
-  station = 17, 
+  parameter = 63, 
+  station = 72, 
   start = "01/01/2018", 
   end = "31/01/2018", 
   login = "login", 
   password = "password"
 )
 ```
+
+To see a list of parameter and station IDs, use the objects `cetesb_param_ids` and `cetesb_station_ids`.
+
+```{r}
+cetesb_param_ids
+```
+
+
+```{r}
+cetesb_station_ids
+```
+
 
 If you substitute the values `login` and `password` by your login and password from the Qualar system, this example will return the hourly NO concentrations from the Pinheiros station for January 2018.

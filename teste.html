@@ -1,0 +1,231 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>Serviços - CETESB</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Expires" content="-1">
+<link rel="stylesheet" href="jsp/css/style.css">
+<script type="text/javascript" src="jsp/js/functions.js"></script><script type="text/javascript" src="jsp/js/array_login.js"></script><script type="text/javascript" src="jsp/js/funcoes.js"></script><script type="text/javascript" src="jsp/js/jquery.js"></script><script type="text/javascript" src="jsp/js/jquery.maskedinput.js"></script><script language="JavaScript" type="text/JavaScript">
+$(function() {
+	$('input[@name=dataInicialStr]').mask('99/99/9999');
+	$('input[@name=dataFinalStr]').mask('99/99/9999');	
+});
+
+/**
+ * Executa a tela de Exportar dados
+ */ 
+function pesquisar(){
+
+	if (isDadosValidos()) {
+		document.exportaDadosAvancForm.action="/qualar/exportaDadosAvanc.do?method=exportar";
+		document.exportaDadosAvancForm.submit();
+	}
+}
+
+/**
+ * Validacao dos dados
+ */
+function isDadosValidos() {
+	
+	if (document.exportaDadosAvancForm.dataInicialStr.value == "") {
+		alert("Campo data inicial é obrigatório!");
+		document.exportaDadosAvancForm.dataInicialStr.focus();
+		return false;
+	}
+
+	if (document.exportaDadosAvancForm.dataFinalStr.value == "") {
+		alert("Campo data final é obrigatório!");
+		document.exportaDadosAvancForm.dataFinalStr.focus();
+		return false;
+	}
+
+	if (document.exportaDadosAvancForm.dataInicialStr.value != "" && !isDataValida(document.exportaDadosAvancForm.dataInicialStr.value)) {
+		alert("Data inicial inválida!");
+		document.exportaDadosAvancForm.dataInicialStr.focus();
+		return false;
+	}
+	
+	if (document.exportaDadosAvancForm.dataFinalStr.value != "" && !isDataValida(document.exportaDadosAvancForm.dataFinalStr.value)) {
+		alert("Data final inválida!");
+		document.exportaDadosAvancForm.dataFinalStr.focus();
+		return false;
+	}
+
+	if (document.exportaDadosAvancForm.dataInicialStr.value != "" && document.exportaDadosAvancForm.dataFinalStr.value != "") {
+		var retorno = verificaDatas(document.exportaDadosAvancForm.dataInicialStr.value, document.exportaDadosAvancForm.dataFinalStr.value);
+	
+		if (!retorno) {
+			alert("Data final deve ser maior igual a data inicial!");
+			document.historicoOcorrenciaForm.dataFinalStr.focus();
+			return false;
+		}
+	}
+	
+	// Estação é obrigatório
+	if (document.exportaDadosAvancForm.elements["estacaoVO.nestcaMonto"].selectedIndex == 0) {
+		alert("Campo estação é obrigatório!");
+		document.exportaDadosAvancForm.elements["estacaoVO.nestcaMonto"].focus();
+		return false;	
+	}
+	
+	var diferenca = dateDiff(document.exportaDadosAvancForm.dataInicialStr.value, document.exportaDadosAvancForm.dataFinalStr.value);
+	var fator = 366; // 1 ano
+
+	if (diferenca > fator) {
+		alert("A diferença entre as datas informadas deve ser de no máximo 1 ano.");
+		document.exportaDadosAvancForm.dataFinalStr.focus();
+		return false;
+	}
+
+
+
+	if (! isChecked(document.exportaDadosAvancForm.nparmtsSelecionados)) {
+		alert("Selecione pelo menos um parâmetro!");
+		return false;
+	} else {
+	
+		// Nesse caso existe somente um item e está selecionado
+		if (isArray(document.exportaDadosAvancForm.nparmtsSelecionados)) {
+			var qtdeSelecionados = 0;
+			
+			for (var i = 0; i < document.exportaDadosAvancForm.nparmtsSelecionados.length; i++) {
+				if (document.exportaDadosAvancForm.nparmtsSelecionados[i].checked) {
+					qtdeSelecionados++;
+				}
+			}
+			
+			if (qtdeSelecionados > 3) {
+				alert('É permitido a escolha de no máximo 3 parâmetros!');
+				return false;
+			}
+		
+		}
+	}
+	
+	return true;
+}
+
+/**
+ * Filtra o combo de parametros de acordo com a estacao selecionada
+ */
+function filtrarParametros() {
+	document.exportaDadosAvancForm.action="/qualar/exportaDadosAvanc.do?method=filtrarParametros";
+	document.exportaDadosAvancForm.submit();
+}
+
+		
+		</script>
+</head>
+<script language="javascript">
+
+function init(){
+	var mensagem = "";
+	var msgPopup = 'Ocorreu um erro inesperado.';
+	var msgPopupErro = 'null';
+
+	if ((msgPopup != null) && (msgPopup != "null") && (msgPopup != "")) {
+		mensagem = msgPopup;
+		
+		if ((msgPopupErro != null) && (msgPopupErro != "null") && (msgPopupErro != "")) {
+			mensagem += '\n\nErro:\n' + msgPopupErro;
+		}
+
+		alert(mensagem);
+	} 
+}
+
+</script><body onload="loadMenus();init();" style="text-align:center; margin: 0px;">
+		<!-- PORTAL DO GOVERNO DO ESTADO -->
+		<!-- Removida a barra do governo em 24/07/2018 por solicitaÃ§Ã£o da Ã¡rea responsÃ¡vel -->
+<!-- <script type="text/javascript" src="http://www.saopaulo.sp.gov.br/barrasp/js/include-basica_cinza.js.php"></script> -->
+		<!-- TÍTULO -->
+		
+
+<!-- TÍTULO - INICIO -->
+<table cellspacing="0" cellpadding="0" width="775" align="center" bgcolor="#eeeeee" border="0"><tr>
+<td width="20" height="15" valign="bottom"><img height="15" src="jsp/imagens/canto_esq.gif" width="20"></td>
+    <td valign="top" align="middle" width="700" bgcolor="#eeeeee" height="15">
+		<div class="font04" align="middle"><b>SISTEMA DE INFORMAÇÕES DA QUALIDADE DO AR</b></div>
+	</td>
+	<td align="right" bgcolor="#eeeeee" height="15" width="38">
+		<div class="font01" align="middle"><b>V 3.83</b></div>
+	</td>
+    <td width="20" height="15" valign="bottom"><img height="15" src="jsp/imagens/canto_dir.gif" width="20"></td>
+  </tr></table>
+<!-- TÍTULO - FIM --><table cellspacing="0" cellpadding="0" width="775" align="center" border="0"><tbody>
+<tr>
+<td valign="center" align="middle" colspan="3"></td>
+				</tr>
+<tr>
+<td class="font02" valign="center" align="middle" width="199" bgcolor="#cccccc" height="17"> </td>
+					<td valign="center" align="middle" width="1" bgcolor="#ffffff"></td>
+					<td class="font01" valign="center" align="left" width="575" bgcolor="#cccccc">   </td>
+				</tr>
+</tbody></table>
+<table cellspacing="0" cellpadding="0" width="775" align="center" border="0"><tbody><tr>
+<!-- MENU HORIZONTAL - INICIO --><td valign="top" align="left" width="199">
+						<script type="text/javascript" src="jsp/js/menu_lateral_3.js"></script>
+</td>
+					<!-- MENU HORIZONTAL - FIM -->	
+					<td width="1" bgcolor="#cccccc"></td>
+					<td width="10"> </td>
+					<td valign="top" align="left" width="565">
+						<!-- CONTROLE USUÁRIO - INICIO -->
+						
+	<div class="ident_logado"><a href="#" title="William Nilson de Amorim" onclick="return dropdownmenu(this, event, menu2, '130px')" onmouseout="delayhidemenu()" class="linklogado">William Nilson de Amorim<img src="jsp/imagens/seta1.gif" alt="detalhes" border="0"></a></div>
+
+						<!-- CONTROLE USUÁRIO - FIM -->	
+						
+						<br><br><!-- TITULO TARJA CINZA - INICIO --><table cellspacing="0" cellpadding="0" width="100%" border="0"><tbody><tr bgcolor="#999999">
+<td class="font02" bgcolor="#cccccc" height="15">EXPORTAR DADOS AVANÇADO</td>
+								</tr></tbody></table>
+<table border="0" width="100%" cellpadding="0" cellspacing="1"><tr>
+<td>
+									<form name="exportaDadosAvancForm" method="post" action="/qualar/exportaDadosAvanc.do?method=pesquisarInit">
+										<table width="100%" cellspacing="0">
+<!-- linha --><tr>
+<td height="27" class="font02" align="right">Tipo de Rede: </td>
+												<td height="27" colspan="3" class="font01">
+													Automática
+												</td>
+											</tr>
+<tr>
+<td height="28" class="font02" align="right">Data Inicial*:  </td>
+												<td width="99" height="28" class="font01">
+													<input type="text" name="dataInicialStr" maxlength="10" size="12" value="01/01/2018" class="estilo">
+</td>
+												<td width="76" align="right" class="font02">Data Final*: </td>
+												<td width="265" height="28" class="font01">
+													<input type="text" name="dataFinalStr" maxlength="10" size="12" value="31/01/2018" class="estilo">
+</td>
+											</tr>
+<tr>
+<td height="3" class="font02" style="text-align:right"><span class="font02" style="text-align:right">Estação*: </span></td>
+												<td height="3" colspan="3" class="font01">
+													<select name="estacaoVO.nestcaMonto" onchange="filtrarParametros();" style="width:200" class="estilo"></select>
+</td>
+											</tr>
+</table>
+<br><table border="0" cellpadding="0" cellspacing="0" id="tbl" style="width:100%"><tr>
+<th id="tit_tab_cinza_2" style="text-align:center">
+													 
+												</th>
+												<th id="tit_tab_cinza_2" style="text-align:center">PARÂMETROS (escolha no máximo 3)</th>
+											</tr></table>
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="1"><tr>
+<td align="right">
+													<input type="button" name="btnPesquisar" value="Exportar" onclick="pesquisar();" class="estilo">
+													 
+												</td>
+											</tr></table>
+</form>
+								</td>
+							</tr></table>
+<!-- CONTEÚDO DA PÁGINA - FIM --><br>
+</td>
+				</tr></tbody></table>
+<!-- RODAPÉ --><!-- INÍCIO RODAPÉ --><!-- FIM RODAPÉ -->
+</body>
+</html>
