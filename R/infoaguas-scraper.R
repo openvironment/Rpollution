@@ -13,6 +13,8 @@
 #' @param password A string with your passoword on Infoaguas system.
 #' @param file A string containing a path to a .rds file where the data will be
 #' written. If NULL (default) the data will only be returned.
+#' @param clean Logical. If TRUE, the data will be cleaned.
+#' If FALSE (default) the original data willbe returned.
 #'
 #' @return A tibble with the data returned by the Infoaguas system.
 #' @examples
@@ -25,7 +27,9 @@
 #'   start = "01/01/2020",
 #'   end = "31/12/2020",
 #'   login = "login",
-#'   password = "password"
+#'   password = "password",
+#'   file = "146_billings.Rds",
+#'   clean = TRUE
 #' )
 #' }
 #' @export
@@ -34,13 +38,14 @@ infoaguas_scraper <- function(station,
                               end = NULL,
                               login,
                               password,
-                              file = NULL) {
+                              file = NULL,
+                              clean = FALSE) {
   infoaguas_login(login, password)
 
   if (is.null(start)) {
     start <-
       infoaguas_station_ids %>%
-      dplyr::filter(id_interaguas == station) %>%
+      dplyr::filter(id == station) %>%
       dplyr::pull(initial_date) %>%
       format("%d-%m-%Y")
 
@@ -90,10 +95,15 @@ infoaguas_scraper <- function(station,
   }
 
 
+  if (clean == TRUE) {
+    results <- results %>% infoaguas_clean_dataset()
+  }
+
+
   if (is.null(file)) {
     return(results)
   } else {
-    readr::write_rds(data, file)
+    readr::write_rds(results, file)
     return(results)
   }
 

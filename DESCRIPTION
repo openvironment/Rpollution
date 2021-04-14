@@ -25,7 +25,11 @@ Imports:
     readr,
     lubridate,
     xml2,
-    readxl
+    readxl,
+    janitor,
+    tidyr,
+    tidyselect,
+    biogeo
 RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr

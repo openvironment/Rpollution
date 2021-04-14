@@ -10,7 +10,8 @@ infoaguas_scraper(
   end = NULL,
   login,
   password,
-  file = NULL
+  file = NULL,
+  clean = FALSE
 )
 }
 \arguments{
@@ -32,6 +33,9 @@ search will be used.}
 
 \item{file}{A string containing a path to a .rds file where the data will be
 written. If NULL (default) the data will only be returned.}
+
+\item{clean}{Logical. If TRUE, the data will be cleaned.
+If FALSE (default) the original data willbe returned.}
 }
 \value{
 A tibble with the data returned by the Infoaguas system.
@@ -49,7 +53,9 @@ infoaguas_scraper(
   start = "01/01/2020",
   end = "31/12/2020",
   login = "login",
-  password = "password"
+  password = "password",
+  file = "146_billings.Rds",
+  clean = TRUE
 )
 }
 }
