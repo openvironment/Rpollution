@@ -7,12 +7,12 @@
 infoaguas_login(login, password)
 }
 \arguments{
-\item{login}{Character. Login email.}
+\item{login}{A string with your login on Infoaguas system.}
 
-\item{password}{Character. Password}
+\item{password}{A string with your passoword on Infoaguas system.}
 }
 \value{
-Message wheter the login succeeded or not.
+Message whether the login succeeded or not.
 }
 \description{
 Register at: https://sistemainfoaguas.cetesb.sp.gov.br/Login/Index
