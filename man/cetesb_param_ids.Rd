@@ -4,12 +4,14 @@
 \name{cetesb_param_ids}
 \alias{cetesb_param_ids}
 \title{Ids for the CETESB parameters.}
-\format{A data frame with 20 rows and 3 variables:
+\format{
+A data frame with 20 rows and 3 variables:
 \describe{
 \item{id}{Id of the parameter.}
 \item{param_abbrev}{Abbreviation of the parameter name.}
 \item{param}{Parameter name.}
-}}
+}
+}
 \source{
 \url{http://qualar.cetesb.sp.gov.br/}
 }
