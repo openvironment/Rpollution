@@ -27,9 +27,11 @@ the start of the operation of the station will be used.}
 final day for the data selection. If NULL (default) the date of the
 search will be used.}
 
-\item{login}{A string with your login on Infoaguas system.}
+\item{login}{A string with your login on Infoaguas system.
+See: \url{https://sistemainfoaguas.cetesb.sp.gov.br/Login/Index}}
 
-\item{password}{A string with your passoword on Infoaguas system.}
+\item{password}{A string with your passoword on Infoaguas system.
+See: \url{https://sistemainfoaguas.cetesb.sp.gov.br/Login/Index}}
 
 \item{file}{A string containing a path to a .rds file where the data will be
 written. If NULL (default) the data will only be returned.}

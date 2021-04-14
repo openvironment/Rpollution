@@ -10,7 +10,9 @@
 #' final day for the data selection. If NULL (default) the date of the
 #' search will be used.
 #' @param login A string with your login on Infoaguas system.
+#' See: \url{https://sistemainfoaguas.cetesb.sp.gov.br/Login/Index}
 #' @param password A string with your passoword on Infoaguas system.
+#' See: \url{https://sistemainfoaguas.cetesb.sp.gov.br/Login/Index}
 #' @param file A string containing a path to a .rds file where the data will be
 #' written. If NULL (default) the data will only be returned.
 #' @param clean Logical. If TRUE, the data will be cleaned.

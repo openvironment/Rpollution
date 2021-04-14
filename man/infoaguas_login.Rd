@@ -15,5 +15,5 @@ infoaguas_login(login, password)
 Message whether the login succeeded or not.
 }
 \description{
-Register at: https://sistemainfoaguas.cetesb.sp.gov.br/Login/Index
+Register at: \url{https://sistemainfoaguas.cetesb.sp.gov.br/Login/Index}
 }

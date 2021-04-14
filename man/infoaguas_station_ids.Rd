@@ -13,7 +13,7 @@ A data frame with 648 rows and 8 variables:
 \item{initial_date}{Date when the station started to operate,
 in format dd/mm/aaaa.}
 \item{end_date}{Date when the station stopped operating,
-in format dd/mm/aaaa.}
+in format dd/mm/aaaa. The NA means that the station is still operating.}
 \item{location}{Location of the station.}
 \item{name_muni}{Name of the municipality where the station is located.}
 \item{code_muni}{Code of the municipality where the station is located.
@@ -28,5 +28,8 @@ infoaguas_station_ids
 }
 \description{
 A dataset containing the ids for every Infoaguas station.
+}
+\examples{
+dplyr::glimpse(infoaguas_station_ids)
 }
 \keyword{datasets}

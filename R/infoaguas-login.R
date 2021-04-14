@@ -1,6 +1,6 @@
 #' Login at Infoaguas CETESB.
 #'
-#' Register at: https://sistemainfoaguas.cetesb.sp.gov.br/Login/Index
+#' Register at: \url{https://sistemainfoaguas.cetesb.sp.gov.br/Login/Index}
 #'
 #' @param login A string with your login on Infoaguas system.
 #' @param password A string with your passoword on Infoaguas system.
