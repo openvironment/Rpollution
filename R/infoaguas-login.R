@@ -2,10 +2,10 @@
 #'
 #' Register at: https://sistemainfoaguas.cetesb.sp.gov.br/Login/Index
 #'
-#' @param login Character. Login email.
-#' @param password Character. Password
+#' @param login A string with your login on Infoaguas system.
+#' @param password A string with your passoword on Infoaguas system.
 #'
-#' @return Message wheter the login succeeded or not.
+#' @return Message whether the login succeeded or not.
 #' @export
 infoaguas_login <- function(login, password) {
   u <- "https://sistemainfoaguas.cetesb.sp.gov.br"
