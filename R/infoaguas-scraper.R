@@ -1,3 +1,34 @@
+#' Scraper Infoaguas CETESB
+#'
+#' @param station A numeric value indicating the station id from
+#' where you wish to get the data.
+#' See [Rpollution::infoaguas_station_ids].
+#' @param start A string in the format "dd/mm/aaaa" representing
+#' the initial day for the data selection. If NULL (default) the date of
+#' the start of the operation of the station will be used.
+#' @param end A string in the format "dd/mm/aaaa" representing  the
+#' final day for the data selection. If NULL (default) the date of the
+#' search will be used.
+#' @param login A string with your login on Infoaguas system.
+#' @param password A string with your passoword on Infoaguas system.
+#' @param file A string containing a path to a .rds file where the data will be
+#' written. If NULL (default) the data will only be returned.
+#'
+#' @return A tibble with the data returned by the Infoaguas system.
+#' @examples
+#' \dontrun{
+#'
+#' # Data from the station BILL02100, in the Billings reservoir, in 2020.
+#'
+#' infoaguas_scraper(
+#'   station = 146,
+#'   start = "01/01/2020",
+#'   end = "31/12/2020",
+#'   login = "login",
+#'   password = "password"
+#' )
+#' }
+#' @export
 infoaguas_scraper <- function(station,
                               start = NULL,
                               end = NULL,
