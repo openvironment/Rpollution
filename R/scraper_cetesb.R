@@ -3,7 +3,7 @@
 #' @param station A numeric value indicating the station id from
 #' where you wish to get the data.
 #' See [Rpollution::cetesb_station_ids].
-#' @param parameters A numeric vector of maximum length equal to 3 indicating
+#' @param parameter A numeric vector of maximum length equal to 3 indicating
 #' the ids of the parameters you want to get the data from.
 #' See [Rpollution::cetesb_param_ids].
 #' @param start A string in the format "dd/mm/aaaa" representing
