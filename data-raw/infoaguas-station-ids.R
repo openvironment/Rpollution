@@ -20,7 +20,7 @@ r_monitoramento <-
     "https://sistemainfoaguas.cetesb.sp.gov.br/AguasSuperficiais/RelatorioQualidadeAguasSuperficiais/Monitoramento"
   )
 
-id_interaguas  <- r_monitoramento %>%
+id <- r_monitoramento %>%
   xml2::read_html() %>%
   xml2::xml_find_first("//table//tbody") %>%
   xml2::xml_find_all("//input") %>%
@@ -34,7 +34,7 @@ id_table <-
   purrr::pluck(1) %>%
   janitor::clean_names()  %>%
   tibble::as_tibble() %>%
-  tibble::add_column(id_interaguas) %>%
+  tibble::add_column(id) %>%
   dplyr::select(-x) %>%
   dplyr::mutate(
     initial_date = readr::parse_date(data_inicio, format = "%d/%m/%Y"),
@@ -49,30 +49,43 @@ id_table <-
       TRUE ~ municipality
     )
   ) %>%
-  dplyr::select(-data_fim, -data_inicio, -municipio) %>%
+  dplyr::select(-data_fim,-data_inicio,-municipio) %>%
   dplyr::rename(
-    "address" = localizacao,
+    "location" = localizacao,
     "water_system" = sist_hidrico,
-    "id_station" = cod_ponto
+    "stationname" = cod_ponto
   )
 
 municipalities_sp <-  geobr::read_municipality("SP") %>%
   sf::st_drop_geometry() %>%
   dplyr::select(code_muni, name_muni) %>%
   tibble::as_tibble() %>%
-  dplyr::mutate(municipality = stringr::str_to_upper(name_muni),
-                municipality = abjutils::rm_accent(municipality),
-                municipality = stringr::str_replace_all(municipality, "-", " "),
-                municipality = stringr::str_replace_all(municipality,  "'", " "),
-                municipality = dplyr::case_when(municipality == "MOJI MIRIM" ~
-                                                  "MOGI MIRIM",
-                                                TRUE ~ municipality))
-
+  dplyr::mutate(
+    municipality = stringr::str_to_upper(name_muni),
+    municipality = abjutils::rm_accent(municipality),
+    municipality = stringr::str_replace_all(municipality, "-", " "),
+    municipality = stringr::str_replace_all(municipality,  "'", " "),
+    municipality = dplyr::case_when(municipality == "MOJI MIRIM" ~
+                                      "MOGI MIRIM",
+                                    TRUE ~ municipality)
+  )
 
 infoaguas_station_ids <-  id_table %>%
   dplyr::left_join(municipalities_sp, by = "municipality") %>%
   dplyr::select(-municipality) %>%
-  dplyr::mutate(code_muni = as.character(code_muni))
+  dplyr::mutate(code_muni = as.character(code_muni)) %>%
+  dplyr::relocate(
+    id,
+    stationname,
+    water_system,
+    initial_date,
+    end_date,
+    location,
+    name_muni,
+    code_muni,
+    .before = tidyselect::everything()
+  )
+
 
 
 usethis::use_data(infoaguas_station_ids, overwrite = TRUE)
