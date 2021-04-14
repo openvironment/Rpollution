@@ -4,13 +4,25 @@
 \alias{scraper_cetesb}
 \title{Scraper CETESB}
 \usage{
-scraper_cetesb(station, parameter, start, end, login, password,
-  safe = FALSE, file = NULL)
+scraper_cetesb(
+  station,
+  parameter,
+  start,
+  end,
+  login,
+  password,
+  safe = FALSE,
+  file = NULL
+)
 }
 \arguments{
 \item{station}{A numeric value indicating the station id from
 where you wish to get the data.
-See \link[Rpollution:cetesb_station_ids]{Rpollution::cetesb_station_ids}.}
+See \link{cetesb_station_ids}.}
+
+\item{parameter}{A numeric vector of maximum length equal to 3 indicating
+the ids of the parameters you want to get the data from.
+See \link{cetesb_param_ids}.}
 
 \item{start}{A string in the format "dd/mm/aaaa" representing
 the initial day for the data selection.}
@@ -27,10 +39,6 @@ extract the requested data.}
 
 \item{file}{A string containing a path to a .rds file where the data will be
 written. If NULL (default) the data will be return.}
-
-\item{parameters}{A numeric vector of maximum length equal to 3 indicating
-the ids of the parameters you want to get the data from.
-See \link[Rpollution:cetesb_param_ids]{Rpollution::cetesb_param_ids}.}
 }
 \value{
 A tibble with the data returned by the Qualar system.

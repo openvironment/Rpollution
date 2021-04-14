@@ -4,7 +4,8 @@
 \name{cetesb_station_ids}
 \alias{cetesb_station_ids}
 \title{Ids for the CETESB stations.}
-\format{A data frame with 62 rows and 3 variables:
+\format{
+A data frame with 62 rows and 3 variables:
 \describe{
 \item{id}{Id of the station.}
 \item{stationname}{Name of the station.}
@@ -32,7 +33,8 @@ in format dd/mm/aaaa.}
 \item{address}{Address of the station.}
 \item{lat}{Latitude of the station.}
 \item{long}{Longitude of the station.}
-}}
+}
+}
 \source{
 \url{http://qualar.cetesb.sp.gov.br/}
 }
