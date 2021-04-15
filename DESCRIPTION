@@ -10,7 +10,7 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Suggests:
-    testthat,
+    testthat (>= 3.0.0),
     knitr,
     rmarkdown
 Imports: 
@@ -23,7 +23,14 @@ Imports:
     fs,
     glue,
     readr,
-    lubridate
-RoxygenNote: 6.1.1
+    lubridate,
+    xml2,
+    readxl,
+    janitor,
+    tidyr,
+    tidyselect,
+    biogeo
+RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr
+Config/testthat/edition: 3
