@@ -46,7 +46,7 @@ infoaguas_scraper <- function(station,
 
   if (is.null(start)) {
     start <-
-      infoaguas_station_ids %>%
+      Rpollution::infoaguas_station_ids %>%
       dplyr::filter(id == station) %>%
       dplyr::pull(initial_date) %>%
       format("%d-%m-%Y")
